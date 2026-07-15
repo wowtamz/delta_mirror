@@ -1,0 +1,29 @@
+name: C++ CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    container:
+      image: debian:stable-slim
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y \
+            build-essential \
+            cmake \
+            libwxgtk3.2-dev
+
+      - name: Build
+        run: make
+
+      - name: Run tests
+        run: make test
