@@ -39,10 +39,9 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          echo "Windows dependencies not implemented yet"
-          exit 0
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
           vcpkg install wxwidgets:x64-windows
+          echo "CMAKE_ARGS=-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake" >> $env:GITHUB_ENV
 
       - name: Build
         run: make
