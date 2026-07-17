@@ -12,3 +12,7 @@ add_executable(MyApp
 )
 
 target_link_libraries(MyApp PRIVATE ${wxWidgets_LIBRARIES})
+
+target_compile_definitions(MyApp PRIVATE
+    ${wxWidgets_DEFINITIONS}
+)
