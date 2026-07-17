@@ -4,7 +4,7 @@ all: build
 
 build:
 	cmake -S . -B build $(CMAKE_ARGS) \
-		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=build/bin
+		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=bin
 	cmake --build build --config Release
 
 test: build
