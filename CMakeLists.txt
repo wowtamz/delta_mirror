@@ -4,6 +4,11 @@ project(MyApp LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY
+        "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
+
 # Prefer the Config package (vcpkg, Homebrew), otherwise fall back
 # to the Find module (Ubuntu, Debian, etc.)
 find_package(wxWidgets CONFIG QUIET)
