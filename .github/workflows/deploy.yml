@@ -2,10 +2,41 @@ name: Continuous Deployment
 
 on:
   push:
+    branches:
+      - main
+      - dev
+      - release/*
   pull_request:
+      - main
+      - dev
+      - release/*
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    container:
+      image: debian:stable-slim
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y \
+            build-essential \
+            cmake \
+            libwxgtk3.2-dev
+
+      - name: Build
+        run: make
+
+      - name: Run tests
+        run: make test
+
   build:
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: test
     strategy:
       fail-fast: false
@@ -93,26 +124,3 @@ jobs:
         with:
           files: |
             artifacts/**/*
-
-  test:
-    runs-on: ubuntu-latest
-
-    container:
-      image: debian:stable-slim
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          apt-get update
-          apt-get install -y \
-            build-essential \
-            cmake \
-            libwxgtk3.2-dev
-
-      - name: Build
-        run: make
-
-      - name: Run tests
-        run: make test
